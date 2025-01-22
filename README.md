@@ -1,8 +1,12 @@
-# Image Resizinf using NVIDIA NPP with CUDA
+# Image denoisyng using box convolution based on NPP and CUDNN
 
 ## Overview
 
-This project demonstrates the use of NVIDIA Performance Primitives (NPP) library with CUDA to perform image resizing. The goal is to utilize GPU acceleration to efficiently resize a given image by a scale, leveraging the computational power of modern GPUs. The project is a part of the CUDA at Scale for the Enterprise course and serves as a template for understanding how to implement basic image processing operations using CUDA and NPP.
+This project demonstrates the use of curand with CUDA for adding noise to an image.
+Then it shows how to use NVIDIA Performance Primitives (NPP) to perform image denoising using box filter.
+And it sjhows how to use CUDNN to perform image denoising using convolution with pre-specified kernel (we generate conv kernel with box shape).
+The goal is to utilize GPU acceleration to efficiently add noise to an image, and denoise it using different CUDA libs.
+The project is a part of the CUDA Advanced Libraries course.
 
 ## Code Organization
 
@@ -10,7 +14,11 @@ This project demonstrates the use of NVIDIA Performance Primitives (NPP) library
 This folder should hold all binary/executable code that is built automatically or manually. Executable code should have use the .exe extension or programming language-specific extension.
 
 ```data/```
-This folder should hold all example data in any format. If the original data is rather large or can be brought in via scripts, this can be left blank in the respository, so that it doesn't require major downloads when all that is desired is the code/structure.
+This folder contain input image lena.pgm.
+Output image with added noise lena_noisy.pgm.
+Output image with smoothed noise by box filter from NPP: lena_box_npp.pgm
+Output image with smoothed noise by convolutional box filter from CUDNN: lena_box_cudnn.png
+
 
 ```src/```
 The source code should be placed here in a hierarchical fashion, as appropriate.
@@ -29,7 +37,7 @@ An optional script used to run your executable code, either with or without comm
 
 ## Key Concepts
 
-Performance Strategies, Image Processing, NPP Library
+Performance Strategies, Image Processing, NPP, CUDNN Library
 
 ## Supported SM Architectures
 
@@ -46,7 +54,7 @@ x86_64, ppc64le, armv7l
 ## CUDA APIs involved
 
 ## Dependencies needed to build/run
-[FreeImage](../../README.md#freeimage), [NPP](../../README.md#npp)
+FreeImage, CUDA, OpenCV, NPP, CUDNN
 
 ## Prerequisites
 
@@ -59,7 +67,7 @@ Make sure the dependencies mentioned in [Dependencies]() section above are insta
 ### Linux
 The Linux samples are built using makefiles. To use the makefiles, change the current directory to the sample directory you wish to build, and run make:
 ```
-$ cd CudaRescale
+$ cd CudaAddNoiseAndSmooth
 $ make all
 ```
 
@@ -78,7 +86,7 @@ If you wish to run the binary directly with custom input/output files and custom
 
 ```bash
 - Copy code
-./bin/resizeNPP --input data/lena.pgm --output data/lena_rescaled.pgm --scale=2
+./bin/main --input data/lena.pgm
 ```
 
 - Cleaning Up

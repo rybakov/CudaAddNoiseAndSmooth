@@ -31,11 +31,18 @@
 #
 ################################################################################
 
+
+# export LD_LIBRARY_PATH=/usr/local/cuda${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
+# export PATH=/usr/local/cuda${PATH:+:${PATH}}
+
 # Define the compiler and flags
-NVCC = /usr/local/cuda/bin/nvcc
+# NVCC = /usr/local/cuda/bin/nvcc
+# set cuda version
+CUDA=cuda-12.1
+NVCC = /usr/local/$(CUDA)/bin/nvcc
 CXX = g++
-CXXFLAGS = -std=c++11 -I/home/oleg/Downloads/CUDAatScaleForTheEnterpriseCourseProjectTemplate-main/cuda-samples-master/Common -I/usr/local/cuda/include -I/home/oleg/Downloads/CUDAatScaleForTheEnterpriseCourseProjectTemplate-main/cuda-samples-master/Common/UtilNPP -I/home/oleg/Downloads/CUDAatScaleForTheEnterpriseCourseProjectTemplate-main/FreeImage-master/install_dir/include -Iinclude
-LDFLAGS = -L/usr/local/cuda/lib64 -lcudart -lnppc -lnppial -lnppicc -lnppidei -lnppif -lnppig -lnppim -lnppist -lnppisu -lnppitc -lfreeimage -lnppig_static -lnppc_static
+CXXFLAGS = -std=c++11 -I/usr/include/opencv4 -I/home/oleg/Downloads/CudaAddNoiseAndSmooth/cuda-samples-master/Common -I/usr/local/$(CUDA)/include -I/home/oleg/Downloads/CudaAddNoiseAndSmooth/cuda-samples-master/Common/UtilNPP -I/home/oleg/Downloads/CudaAddNoiseAndSmooth/FreeImage-master/install_dir/include -Iinclude
+LDFLAGS = -L/usr/local/$(CUDA)/lib64 -lopencv_imgcodecs -lopencv_imgproc -lopencv_core -lcudart -lcudnn -lcurand -lnppc -lnppial -lnppicc -lnppidei -lnppif -lnppig -lnppim -lnppist -lnppisu -lnppitc -lfreeimage -lnppig_static -lnppc_static
 
 # Define directories
 SRC_DIR = src
@@ -44,8 +51,8 @@ DATA_DIR = data
 LIB_DIR = lib
 
 # Define source files and target executable
-SRC = $(SRC_DIR)/resizeNPP.cpp
-TARGET = $(BIN_DIR)/resizeNPP
+SRC = $(SRC_DIR)/main.cu
+TARGET = $(BIN_DIR)/main
 
 # Define the default rule
 all: $(TARGET)
@@ -57,7 +64,7 @@ $(TARGET): $(SRC)
 
 # Rule for running the application
 run: $(TARGET)
-	./$(TARGET) --input $(DATA_DIR)/lena.pgm --output $(DATA_DIR)/lena_rescaled.pgm
+	./$(TARGET) --input $(DATA_DIR)/lena.pgm
 
 # Clean up
 clean:
