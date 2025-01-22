@@ -2,9 +2,11 @@
 
 ## Overview
 
-This project demonstrates the use of curand with CUDA for adding noise to an image.
-Then it shows how to use NVIDIA Performance Primitives (NPP) to perform image denoising using box filter.
-And it sjhows how to use CUDNN to perform image denoising using convolution with pre-specified kernel (we generate conv kernel with box shape).
+This project demonstrates the use of curand with CUDA for adding noise to an image and image denoising using NPP box filter and convolutional box filter based on CUDNN.
+It reads input image.
+Adds noise to an images using CUDA kernel and curand.
+Then it smothes noisy image with box filter using NVIDIA Performance Primitives (NPP) to perform image denoising.
+It also shows how to use CUDNN to perform image denoising using convolution with pre-specified kernel (we generate conv kernel with box shape).
 The goal is to utilize GPU acceleration to efficiently add noise to an image, and denoise it using different CUDA libs.
 The project is a part of the CUDA Advanced Libraries course.
 
